@@ -1,10 +1,11 @@
 // import data from '../data';
 import { useEffect, useReducer } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 // import logger from 'use-reducer-logger';
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Product from '../Components/Product.js'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Product from '../Components/Product.js';
+import {Helmet} from 'react-helmet-async';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -15,12 +16,12 @@ const reducer = (state, action) => {
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
-      return state
+      return state;
   }
-}
+};
 function HomeScreen() {
   // API
-  const API = 'http://localhost:5000'
+  const API = 'http://localhost:5000';
   const [{ loading, error, products }, dispatch] = useReducer(reducer, {
     products: [],
     loading: true,
@@ -43,6 +44,9 @@ function HomeScreen() {
 
   return (
     <div>
+      <Helmet>
+        <title>Amazona</title>
+      </Helmet>
       <h1>Featured Products</h1>
       <div className="products">
         {loading ? (
@@ -62,4 +66,4 @@ function HomeScreen() {
     </div>
   );
 }
-export default HomeScreen
+export default HomeScreen;
