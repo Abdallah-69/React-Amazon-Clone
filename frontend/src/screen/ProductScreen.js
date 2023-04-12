@@ -8,7 +8,10 @@ import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
-import {Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../Components/LoadingBox';
+import MessageBox from '../Components/MessageBox';
+import { getError } from '../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +26,7 @@ const reducer = (state, action) => {
   }
 };
 
-function HomeScreen() {
+function ProductScreen() {
   const params = useParams();
   const { slug } = params;
   // API
@@ -41,16 +44,16 @@ function HomeScreen() {
         console.log(result);
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
     fetchData();
   }, [slug]);
 
   return loading ? (
-    <div>loading...</div>
+    <LoadingBox />
   ) : error ? (
-    <div>{error}</div>
+    <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
       <Row>
@@ -120,4 +123,4 @@ function HomeScreen() {
     </div>
   );
 }
-export default HomeScreen;
+export default ProductScreen;
